@@ -27,7 +27,6 @@ const App = () => {
                     <Route path="/Accueil/add-user" element={<AjouterUtilisateur/>} />
                     <Route path="/Accueil/add-request" element={<AjouterDemande />} />
                     <Route path="/Accueil/my-requests" element={<ListeDemandes />} />
-                    <Route path="/Accueil/all-requests" element={<ListeDemandes />} />
 
                 </Route>
             </Routes>
