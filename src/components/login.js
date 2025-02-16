@@ -43,10 +43,13 @@ const Login = () => {
 
   return (
     <div className="container">
+      {/* Panneau gauche */}
       <div className="left-panel">
         <h1>Bienvenue !</h1>
         <p>Connectez-vous pour continuer.</p>
       </div>
+
+      {/* Panneau droit */}
       <div className="right-panel">
         <h2>Connexion</h2>
         <form onSubmit={(e) => e.preventDefault()}>
@@ -82,6 +85,8 @@ const Login = () => {
           Vous n'avez pas de compte ? <a href="/create-account" className="clean-link">Inscrivez-vous</a>
         </p>
       </div>
+
+      {/* Styles CSS */}
       <style>{`
         * {
           margin: 0;
@@ -90,28 +95,26 @@ const Login = () => {
         }
         .container {
           display: flex;
-          width: 100vw;
-          height: 100vh;
+          flex-direction: column; /* Par défaut, les éléments sont empilés verticalement */
           align-items: center;
           justify-content: center;
+          min-height: 100vh;
           background: linear-gradient(135deg, #6a11cb, #2575fc);
+          padding: 20px;
         }
         .left-panel {
-          width: 40%;
-          padding: 50px;
+          width: 100%;
+          padding: 20px;
           color: white;
-          font-size: 25px;
-          justifyContent: center;
+          text-align: center;
+          margin-bottom: 20px;
         }
         .right-panel {
-          width: 40%;
-          padding: 50px;
+          width: 100%;
+          padding: 20px;
           background: white;
           border-radius: 15px;
           box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
         }
         form {
           display: flex;
@@ -148,6 +151,22 @@ const Login = () => {
         }
         .clean-link:hover {
           text-decoration: none;
+        }
+
+        /* Media Queries pour les écrans plus larges */
+        @media (min-width: 768px) {
+          .container {
+            flex-direction: row; /* Les éléments sont côte à côte sur les grands écrans */
+            gap: 40px;
+          }
+          .left-panel {
+            width: 40%;
+            margin-bottom: 0;
+            text-align: left;
+          }
+          .right-panel {
+            width: 40%;
+          }
         }
       `}</style>
     </div>
