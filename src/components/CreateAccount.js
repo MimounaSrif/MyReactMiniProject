@@ -29,13 +29,11 @@ const CreateAccount = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // Validation du mot de passe
     const validatePassword = (password) => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return passwordRegex.test(password);
     };
 
-    // Gestion des changements dans les champs du formulaire
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -44,12 +42,10 @@ const CreateAccount = () => {
         });
     };
 
-    // Soumission du formulaire
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = [];
 
-        // Validation du mot de passe
         if (!validatePassword(formData.MotDePasse)) {
             validationErrors.push('Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et avoir au moins 8 caractères.');
         }
@@ -57,17 +53,15 @@ const CreateAccount = () => {
             validationErrors.push('La confirmation du mot de passe ne correspond pas.');
         }
 
-        // Si des erreurs sont trouvées, on les affiche
         if (validationErrors.length > 0) {
             setErrors(validationErrors);
             return;
         }
 
         try {
-            // Envoi des données à l'API
             const response = await axios.post('https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users', formData);
-            dispatch(setUser(response.data)); // Mise à jour du store Redux
-            navigate('/Accueil'); // Redirection vers la page d'accueil
+            dispatch(setUser(response.data));
+            navigate('/Accueil');
         } catch (error) {
             setErrors(['Une erreur est survenue lors de la création du compte.']);
         }
@@ -207,31 +201,34 @@ const CreateAccount = () => {
                 }
                 .container {
                     display: flex;
-                    width: 100vw;
-                    height: 100vh;
+                    flex-direction: column; /* Par défaut, les éléments sont empilés verticalement */
                     align-items: center;
                     justify-content: center;
+                    min-height: 100vh;
                     background: linear-gradient(135deg, #6a11cb, #2575fc);
+                    padding: 20px;
                 }
                 .left-panel {
-                    width: 40%;
-                    padding: 50px;
+                    width: 100%;
+                    padding: 20px;
                     color: white;
-                    font-size: 24px;
+                    text-align: center;
+                    margin-bottom: 20px;
                 }
                 .right-panel {
-                    width: 55%;
-                    padding: 50px;
+                    width: 100%;
+                    padding: 20px;
                     background: white;
                     border-radius: 15px;
                     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
                 }
                 .form-columns {
                     display: flex;
-                    justify-content: space-between;
+                    flex-direction: column; /* Par défaut, les colonnes sont empilées verticalement */
+                    gap: 20px;
                 }
                 .left-column, .right-column {
-                    width: 48%;
+                    width: 100%;
                 }
                 form {
                     display: flex;
@@ -277,6 +274,29 @@ const CreateAccount = () => {
                     transform: translateY(-50%);
                     cursor: pointer;
                     color: #6a11cb;
+                }
+
+                /* Media Queries pour les écrans plus larges */
+                @media (min-width: 768px) {
+                    .container {
+                        flex-direction: row; /* Les éléments sont côte à côte sur les grands écrans */
+                        gap: 40px;
+                    }
+                    .left-panel {
+                        width: 40%;
+                        margin-bottom: 0;
+                        text-align: left;
+                    }
+                    .right-panel {
+                        width: 55%;
+                    }
+                    .form-columns {
+                        flex-direction: row; /* Les colonnes sont côte à côte sur les grands écrans */
+                        gap: 20px;
+                    }
+                    .left-column, .right-column {
+                        width: 48%;
+                    }
                 }
             `}</style>
         </div>
