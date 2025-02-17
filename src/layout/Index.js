@@ -24,7 +24,7 @@ const Index = () => {
                     <>
                         <li style={navItemStyle}><Link to="/Accueil/users" style={{ ...linkStyle, backgroundColor: couleurPreferee, color: '#ffffff' }}>Liste Utilisateurs</Link></li>
                         <li style={navItemStyle}><Link to="/Accueil/add-user" style={{ ...linkStyle, backgroundColor: couleurPreferee, color: '#ffffff' }}>Ajouter Utilisateur</Link></li>
-                        <li style={navItemStyle}><Link to="/Accueil/all-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee, color: '#ffffff' }}> Demandes</Link></li>
+                        <li style={navItemStyle}><Link to="/Accueil/my-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee, color: '#ffffff' }}> Demandes</Link></li>
                     </>
                 )}
             </ul>

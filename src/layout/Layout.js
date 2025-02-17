@@ -36,18 +36,16 @@ const Layout = () => {
 const layoutStyle = {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh',
+    minHeight: '100vh',
     overflowX: 'hidden', // S'assure qu'il n'y ait pas de débordement horizontal
     margin: 0, // Enlever toute marge de base
 };
 
 const navWrapperStyle = {
     display: 'flex',
-    flexDirection: 'row', // Placer le Nav et Index en ligne
-    flexShrink: 0, // Ils ne doivent pas rétrécir
-    width: '100%', // S'assurer que le conteneur occupe 100% de la largeur
-    boxSizing: 'border-box', // Pour éviter les débordements à cause du padding
-    minheight: 'calc(100vh - 8px)',/* Ajuste selon la hauteur de la navbar */
+    flexDirection: 'column', // Par défaut, empiler les éléments verticalement
+    width: '100%',
+    boxSizing: 'border-box',
     paddingTop: '6px',
 };
 
@@ -59,18 +57,30 @@ const mainContentWrapperStyle = {
     marginTop: '80px', // Compense la hauteur du header si nécessaire
     marginBottom: '80px', // Ajoute de l'espace pour le footer
     overflowY: 'auto',
-    width: '100%', // Prendre toute la largeur disponible sans débordement
-    boxSizing: 'border-box', // Pour éviter les débordements horizontaux
+    width: '100%',
+    boxSizing: 'border-box',
 };
 
 const contentStyle = {
     flex: 1, // Prend l'espace restant disponible
     padding: '20px',
-    width: '100%', // Prendre toute la largeur disponible sans débordement
-    maxWidth: '100%', // Ne pas permettre le débordement horizontal
-    overflowY: 'auto', // Scroll possible si le contenu est plus grand que la zone
-    textAlign: 'center', // Centrer le texte si nécessaire
-    boxSizing: 'border-box', // Pour prendre en compte le padding dans les calculs de taille
+    width: '100%',
+    maxWidth: '100%',
+    overflowY: 'auto',
+    textAlign: 'center',
+    boxSizing: 'border-box',
 };
+
+// Media Queries pour les écrans plus larges
+const mediaQueries = `
+    @media (min-width: 768px) {
+        .navWrapperStyle {
+            flexDirection: row; /* Les éléments sont côte à côte sur les grands écrans */
+        }
+        .mainContentWrapperStyle {
+            marginTop: 0; /* Réinitialiser la marge pour les grands écrans */
+        }
+    }
+`;
 
 export default Layout;

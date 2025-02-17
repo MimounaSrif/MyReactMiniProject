@@ -85,9 +85,22 @@ const logoutButtonStyle = {
     transition: 'background-color 0.3s ease',
 };
 
-// Effet au survol
-logoutButtonStyle[':hover'] = {
-    backgroundColor: '#c0392b',
-};
+// Media Queries pour les petits écrans
+const mediaQueries = `
+    @media (max-width: 768px) {
+        .headerContainerStyle {
+            flexDirection: column; /* Empiler les éléments verticalement */
+            height: auto; /* Hauteur automatique */
+            padding: '10px 20px'; /* Réduire le padding */
+        }
+        .logoStyle, .userInfoStyle, .buttonContainerStyle {
+            textAlign: center; /* Centrer le texte */
+            marginBottom: 10px; /* Espace entre les éléments */
+        }
+        .buttonContainerStyle {
+            paddingRight: 0; /* Supprimer le padding à droite */
+        }
+    }
+`;
 
 export default HeaderSection;

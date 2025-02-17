@@ -24,7 +24,7 @@ const NavigationBar = () => {
                     <>
                         <li style={navItemStyle}><Link to="/Accueil/users" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Liste Utilisateurs</Link></li>
                         <li style={navItemStyle}><Link to="/Accueil/add-user" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Ajouter Utilisateur</Link></li>
-                        <li style={navItemStyle}><Link to="/Accueil/all-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee }}> Demandes</Link></li>
+                        <li style={navItemStyle}><Link to="/Accueil/my-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee }}> Demandes</Link></li>
                     </>
                 )}
             </ul>
