@@ -7,28 +7,31 @@ const NavigationBar = () => {
     const couleurPreferee = user?.couleur || '#000000';
 
     return (
-        <nav style={navBarStyle}>
-            <ul style={navListStyle}>
-                <li style={navItemStyle}><Link to="/Accueil" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Accueil</Link></li>
-                <li style={navItemStyle}><Link to="/Accueil/profile" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Mon Profil</Link></li>
-                <li style={navItemStyle}><Link to="/Accueil/color" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Modifier Couleur</Link></li>
+        <>
+            <style>{mediaStyles}</style>
+            <nav style={navBarStyle}>
+                <ul style={navListStyle}>
+                    <li style={navItemStyle} className="nav-link"><Link to="/Accueil" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Accueil</Link></li>
+                    <li style={navItemStyle} className="nav-link"><Link to="/Accueil/profile" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Mon Profil</Link></li>
+                    <li style={navItemStyle} className="nav-link"><Link to="/Accueil/color" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Modifier Couleur</Link></li>
 
-                {!user?.admin && (
-                    <>
-                        <li style={navItemStyle}><Link to="/Accueil/add-request" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Ajouter Demande</Link></li>
-                        <li style={navItemStyle}><Link to="/Accueil/my-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Mes Demandes</Link></li>
-                    </>
-                )}
+                    {!user?.admin && (
+                        <>
+                            <li style={navItemStyle} className="nav-link"><Link to="/Accueil/add-request" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Ajouter Demande</Link></li>
+                            <li style={navItemStyle} className="nav-link"><Link to="/Accueil/my-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Mes Demandes</Link></li>
+                        </>
+                    )}
 
-                {user?.admin && (
-                    <>
-                        <li style={navItemStyle}><Link to="/Accueil/users" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Liste Utilisateurs</Link></li>
-                        <li style={navItemStyle}><Link to="/Accueil/add-user" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Ajouter Utilisateur</Link></li>
-                        <li style={navItemStyle}><Link to="/Accueil/my-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee }}> Demandes</Link></li>
-                    </>
-                )}
-            </ul>
-        </nav>
+                    {user?.admin && (
+                        <>
+                            <li style={navItemStyle} className="nav-link"><Link to="/Accueil/users" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Liste Utilisateurs</Link></li>
+                            <li style={navItemStyle} className="nav-link"><Link to="/Accueil/add-user" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Ajouter Utilisateur</Link></li>
+                            <li style={navItemStyle} className="nav-link"><Link to="/Accueil/my-requests" style={{ ...linkStyle, backgroundColor: couleurPreferee }}>Demandes</Link></li>
+                        </>
+                    )}
+                </ul>
+            </nav>
+        </>
     );
 };
 
@@ -64,5 +67,13 @@ const linkStyle = {
     borderRadius: '5px',
     transition: 'background-color 0.3s ease',
 };
+
+const mediaStyles = `
+    @media (max-width: 768px) {
+        .nav-link {
+            display: none;
+        }
+    }
+`;
 
 export default NavigationBar;

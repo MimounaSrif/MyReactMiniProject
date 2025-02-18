@@ -5,7 +5,7 @@ import { clearUser } from '../redux/store';
 
 const HeaderSection = () => {
     const user = useSelector((state) => state.user);
-    const couleurPreferee = useSelector((state) => state.user?.couleur) || '#000000'; // Couleur noire par défaut
+    const couleurPreferee = useSelector((state) => state.user?.couleur) || '#000000';
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -18,14 +18,14 @@ const HeaderSection = () => {
         <header style={headerContainerStyle}>
             <div style={logoStyle}>
                 <img 
-                    src={user?.avatar || 'https://via.placeholder.com/50'} 
+                    src={user?.avatar || 'https://via.placeholder.com/60'} 
                     alt="Avatar utilisateur" 
                     style={logoImageStyle} 
                 />
             </div>
             {user && (
                 <div style={userInfoStyle}>
-                    <p>Connecté en tant que : {user.prenom} {user.nom}</p>
+                    <p>Connecté en tant que : <strong>{user.prenom} {user.nom}</strong></p>
                 </div>
             )}
             <div style={buttonContainerStyle}>
@@ -50,7 +50,7 @@ const headerContainerStyle = {
     position: 'fixed',
     top: 0,
     left: 0,
-    zIndex: 1000,
+    zIndex: 1001,
 };
 
 const logoStyle = {
@@ -58,9 +58,10 @@ const logoStyle = {
 };
 
 const logoImageStyle = {
-    height: '50px',
-    borderRadius: '50%', // Rend l'avatar rond
-    objectFit: 'cover', // Ajuste bien l'image
+    height: '60px',
+    width: '60px',
+    borderRadius: '50%',
+    objectFit: 'cover',
 };
 
 const userInfoStyle = {
@@ -79,28 +80,10 @@ const logoutButtonStyle = {
     color: '#ffffff',
     border: 'none',
     borderRadius: '5px',
-    padding: '10px 15px',
+    padding: '8px 12px',
     cursor: 'pointer',
-    fontSize: '16px',
+    fontSize: '14px',
     transition: 'background-color 0.3s ease',
 };
-
-// Media Queries pour les petits écrans
-const mediaQueries = `
-    @media (max-width: 768px) {
-        .headerContainerStyle {
-            flexDirection: column; /* Empiler les éléments verticalement */
-            height: auto; /* Hauteur automatique */
-            padding: '10px 20px'; /* Réduire le padding */
-        }
-        .logoStyle, .userInfoStyle, .buttonContainerStyle {
-            textAlign: center; /* Centrer le texte */
-            marginBottom: 10px; /* Espace entre les éléments */
-        }
-        .buttonContainerStyle {
-            paddingRight: 0; /* Supprimer le padding à droite */
-        }
-    }
-`;
 
 export default HeaderSection;

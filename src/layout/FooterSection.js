@@ -1,79 +1,131 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const FooterSection = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     return (
-        <footer style={footerContainerStyle}>
-            <div style={footerUserInfoStyle}>
+        <footer style={{ 
+            ...footerContainerStyle,
+            flexDirection: isMobile ? 'column' : 'row',
+            height: isMobile ? 'auto' : '60px',
+            padding: isMobile ? '15px 20px' : '0 20px'
+        }}>
+            <div style={{ 
+                ...footerUserInfoStyle,
+                textAlign: isMobile ? 'center' : 'left',
+                marginBottom: isMobile ? '10px' : '0'
+            }}>
                 <p>Adresse : Ista HAY SALAM, Salé, Maroc</p>
             </div>
-            <div style={footerButtonContainerStyle}>
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" style={footerLinkStyle}>Facebook</a>
-                <span style={separatorStyle}> | </span>
-                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={footerLinkStyle}>Instagram</a>
-                <span style={separatorStyle}> | </span>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" style={footerLinkStyle}>Twitter</a>
+            
+            <div style={{ 
+                ...footerButtonContainerStyle,
+                textAlign: 'center',
+                paddingRight: isMobile ? '0' : '20px'
+            }}>
+                {/* Icône Facebook */}
+                <a 
+                    href="https://web.facebook.com/profile.php?id=100075918195926" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={footerLinkStyle}
+                    aria-label="Facebook"
+                >
+                    <i className="fab fa-facebook-f" style={iconStyle}></i>
+                </a>
+
+                {/* Icône Instagram */}
+                <a 
+                    href="https://www.instagram.com/srifmimouna/?next=%2F&hl=fr" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={footerLinkStyle}
+                    aria-label="Instagram"
+                >
+                    <i className="fab fa-instagram" style={iconStyle}></i>
+                </a>
+
+                {/* Icône LinkedIn */}
+                <a 
+                    href="https://linkedin.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={footerLinkStyle}
+                    aria-label="LinkedIn"
+                >
+                    <i className="fab fa-linkedin-in" style={iconStyle}></i>
+                </a>
+
+                {/* Icône GitHub */}
+                <a 
+                    href="https://github.com/MimounaSrif" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    style={footerLinkStyle}
+                    aria-label="GitHub"
+                >
+                    <i className="fab fa-github" style={iconStyle}></i>
+                </a>
             </div>
         </footer>
     );
 };
 
-// Styles du footer
+// Styles communs
 const footerContainerStyle = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: '100%',
-    height: '60px',
-    padding: '0 20px',
     backgroundColor: '#f5f5f5',
     color: '#000000',
     position: 'fixed',
     bottom: 0,
     left: 0,
     zIndex: 1000,
+    transition: 'all 0.3s ease'
 };
 
 const footerUserInfoStyle = {
     flex: 1,
-    textAlign: 'left',
-    fontSize: '14px',
+    fontSize: '14px'
 };
 
 const footerButtonContainerStyle = {
     flex: 1,
-    textAlign: 'right',
-    paddingRight: '20px',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    gap: '20px'
 };
 
 const footerLinkStyle = {
     color: '#000000',
     textDecoration: 'none',
-    fontSize: '14px',
-    padding: '0 10px',
-    transition: 'color 0.3s ease',
+    transition: 'color 0.3s ease'
 };
 
-const separatorStyle = {
-    color: '#000000',
-    padding: '0 5px',
-};
-
-// Media Queries pour les petits écrans
-const mediaQueries = `
-    @media (max-width: 768px) {
-        .footerContainerStyle {
-            flexDirection: column; /* Empiler les éléments verticalement */
-            height: auto; /* Hauteur automatique */
-            padding: '10px 20px'; /* Réduire le padding */
-        }
-        .footerUserInfoStyle, .footerButtonContainerStyle {
-            textAlign: center; /* Centrer le texte */
-            marginBottom: 10px; /* Espace entre les éléments */
-        }
-        .footerButtonContainerStyle {
-            paddingRight: 0; /* Supprimer le padding à droite */
-        }
+const iconStyle = {
+    fontSize: '24px',
+    width: '40px',
+    height: '40px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    transition: 'all 0.3s ease',
+    ':hover': {
+        backgroundColor: '#00000015'
     }
-`;
+};
 
 export default FooterSection;

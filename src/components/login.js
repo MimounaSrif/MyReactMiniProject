@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { setUser } from '../redux/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +12,7 @@ const Login = () => {
   const [error, setError] = useState([]);
   const [attempts, setAttempts] = useState(0);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // État pour gérer la visibilité du mot de passe
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -41,6 +44,10 @@ const Login = () => {
     }
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="container">
       {/* Panneau gauche */}
@@ -61,14 +68,21 @@ const Login = () => {
             disabled={isDisabled}
             required
           />
-          <input
-            type="password"
-            placeholder="Mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={isDisabled}
-            required
-          />
+          <div className="password-container">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              disabled={isDisabled}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="eye-icon"
+              onClick={togglePasswordVisibility}
+            />
+          </div>
           <button type="button" onClick={handleLogin} disabled={isDisabled}>
             Se connecter
           </button>
@@ -151,6 +165,17 @@ const Login = () => {
         }
         .clean-link:hover {
           text-decoration: none;
+        }
+        .password-container {
+          position: relative;
+        }
+        .eye-icon {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          color: #6a11cb;
         }
 
         /* Media Queries pour les écrans plus larges */

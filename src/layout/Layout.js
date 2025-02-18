@@ -11,7 +11,6 @@ const Layout = () => {
 
     useEffect(() => {
         document.body.style.backgroundColor = couleurPreferee || '#ffffff';
-        // Éviter la barre de défilement horizontale
         document.body.style.overflowX = 'hidden';
     }, [couleurPreferee]);
 
@@ -37,32 +36,32 @@ const layoutStyle = {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh',
-    overflowX: 'hidden', // S'assure qu'il n'y ait pas de débordement horizontal
-    margin: 0, // Enlever toute marge de base
+    overflowX: 'hidden',
+    margin: 0,
 };
 
 const navWrapperStyle = {
     display: 'flex',
-    flexDirection: 'column', // Par défaut, empiler les éléments verticalement
+    flexDirection: 'column',
     width: '100%',
     boxSizing: 'border-box',
     paddingTop: '6px',
 };
 
 const mainContentWrapperStyle = {
-    flex: 1, // L'espace restant entre la navigation et le footer
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     padding: '20px',
-    marginTop: '80px', // Compense la hauteur du header si nécessaire
-    marginBottom: '80px', // Ajoute de l'espace pour le footer
+    marginTop: '80px',
+    marginBottom: '80px',
     overflowY: 'auto',
     width: '100%',
     boxSizing: 'border-box',
 };
 
 const contentStyle = {
-    flex: 1, // Prend l'espace restant disponible
+    flex: 1,
     padding: '20px',
     width: '100%',
     maxWidth: '100%',
@@ -71,14 +70,39 @@ const contentStyle = {
     boxSizing: 'border-box',
 };
 
-// Media Queries pour les écrans plus larges
+// Media Queries
 const mediaQueries = `
-    @media (min-width: 768px) {
+    @media (max-width: 768px) {
         .navWrapperStyle {
-            flexDirection: row; /* Les éléments sont côte à côte sur les grands écrans */
+            flexDirection: column; /* Empiler les éléments verticalement */
         }
         .mainContentWrapperStyle {
-            marginTop: 0; /* Réinitialiser la marge pour les grands écrans */
+            marginTop: 60px; /* Réduire la marge pour les petits écrans */
+            marginBottom: 60px;
+            padding: 10px; /* Réduire le padding */
+        }
+        .contentStyle {
+            padding: 10px; /* Réduire le padding */
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .navWrapperStyle {
+            flexDirection: row; /* Les éléments sont côte à côte sur les tablettes */
+        }
+        .mainContentWrapperStyle {
+            marginTop: 80px; /* Ajuster la marge pour les tablettes */
+            marginBottom: 80px;
+        }
+    }
+
+    @media (min-width: 1025px) {
+        .navWrapperStyle {
+            flexDirection: row; /* Les éléments sont côte à côte sur les ordinateurs */
+        }
+        .mainContentWrapperStyle {
+            marginTop: 100px; /* Ajuster la marge pour les grands écrans */
+            marginBottom: 100px;
         }
     }
 `;
