@@ -93,8 +93,8 @@ const containerStyle = {
     maxWidth: '500px',
     marginLeft: 'auto', // Décalage à droite
     marginRight: '220px', // Espace à droite
-    margiTop:'100px',
-    padding: '10px',
+    marginTop: '100px',
+    padding: '20px',
     borderRadius: '20px',
     backgroundColor: '#ffffff',
     boxShadow: '0px 12px 24px rgba(0, 0, 0, 0.1)',
@@ -158,24 +158,69 @@ const errorMessageStyle = {
     fontWeight: '500',
 };
 
-// Effets au survol
-containerStyle[':hover'] = {
-    transform: 'translateY(-5px)',
-    boxShadow: '0px 16px 32px rgba(0, 0, 0, 0.15)',
-};
+// ✅ Media Queries pour le Responsive
+const mediaQueries = `
+    @media (max-width: 1200px) {
+        .containerStyle {
+            margin-right: 100px;
+        }
+    }
 
-inputStyle[':focus'] = {
-    borderColor: '#6c5ce7',
-    boxShadow: '0px 0px 8px rgba(108, 92, 231, 0.3)',
-};
+    @media (max-width: 768px) {
+        .containerStyle {
+            max-width: 100%; /* Occupe toute la largeur */
+            margin: 20px 10px; /* Marges réduites */
+            padding: 15px;
+            margin-right: 0;
+            border-radius: 10px; /* Bordures moins prononcées */
+        }
 
-buttonStyle[':hover'] = {
-    backgroundColor: '#5a4fcf',
-    transform: 'scale(1.02)',
-};
+        .titleStyle {
+            font-size: 22px;
+        }
 
-buttonStyle[':active'] = {
-    transform: 'scale(0.98)',
-};
+        .inputStyle, .textareaStyle {
+            padding: 12px;
+            font-size: 14px;
+            width: 100%; /* Occupe toute la largeur */
+        }
+
+        .buttonStyle {
+            padding: 12px;
+            font-size: 14px;
+            width: 100%; /* Occupe toute la largeur */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .containerStyle {
+            max-width: 100%; /* Occupe toute la largeur */
+            margin: 10px 5px; /* Marges minimales */
+            padding: 10px;
+        }
+
+        .titleStyle {
+            font-size: 20px;
+        }
+
+        .inputStyle, .textareaStyle {
+            padding: 10px;
+            font-size: 12px;
+            width: 100%; /* Occupe toute la largeur */
+        }
+
+        .buttonStyle {
+            padding: 10px;
+            font-size: 12px;
+            width: 100%; /* Occupe toute la largeur */
+        }
+    }
+`;
+
+// Ajouter les styles au document
+const styleSheet = document.createElement("style");
+styleSheet.type = "text/css";
+styleSheet.innerText = mediaQueries;
+document.head.appendChild(styleSheet);
 
 export default AjouterDemande;

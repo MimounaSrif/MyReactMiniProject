@@ -25,7 +25,7 @@ const HeaderSection = () => {
             </div>
             {user && (
                 <div style={userInfoStyle}>
-                    <p>Connecté en tant que : <strong>{user.prenom} {user.nom}</strong></p>
+                    <p>Connecté en tant que: <strong>{user.prenom} {user.nom}</strong></p>
                 </div>
             )}
             <div style={buttonContainerStyle}>

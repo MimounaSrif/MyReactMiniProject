@@ -3,15 +3,6 @@ import axios from 'axios';
 
 const AjouterUtilisateur = ({ rafraichirListe }) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
     const [formData, setFormData] = useState({
         nom: '',
         prenom: '',
@@ -26,6 +17,15 @@ const AjouterUtilisateur = ({ rafraichirListe }) => {
         avatar: '',
         photo: '',
     });
+    const [showConfirmation, setShowConfirmation] = useState(false); // État pour afficher la confirmation
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
@@ -42,14 +42,34 @@ const AjouterUtilisateur = ({ rafraichirListe }) => {
                 formData,
                 { headers: { 'Content-Type': 'application/json' } }
             );
-
+    
             if (response.status === 201 || response.status === 200) {
+                // Afficher le message de confirmation
+                setShowConfirmation(true);
+    
+                // Rafraîchir la liste des utilisateurs
                 rafraichirListe(response.data);
+    
+                // Vider les champs du formulaire IMMÉDIATEMENT
+                setFormData({
+                    nom: '',
+                    prenom: '',
+                    email: '',
+                    pays: 'Morocco',
+                    age: '',
+                    MotDePasse: '',
+                    pseudo: '',
+                    couleur: 'Pink',
+                    admin: false,
+                    Devise: 'MAD',
+                    avatar: '',
+                    photo: '',
+                });
+    
+                // Masquer le message de confirmation après 3 secondes
                 setTimeout(() => {
-                    setFormData({
-                        nom: '', prenom: '', email: '', pays: 'Morocco', age: '', MotDePasse: '', pseudo: '', couleur: 'Pink', admin: false, Devise: 'MAD', avatar: '', photo: '',
-                    });
-                }, 100);
+                    setShowConfirmation(false);
+                }, 3000);
             }
         } catch (error) {
             console.error('Erreur complète:', error);
@@ -59,6 +79,11 @@ const AjouterUtilisateur = ({ rafraichirListe }) => {
     return (
         <div style={isMobile ? mobileContainerStyle : containerStyle}>
             <h2 style={titleStyle}>Ajouter un utilisateur</h2>
+            {showConfirmation && (
+                <div style={confirmationStyle}>
+                    Utilisateur ajouté avec succès !
+                </div>
+            )}
             <form onSubmit={handleSubmit} style={formStyle}>
                 <div style={isMobile ? fullWidthInputGroupStyle : formRowStyle}>
                     <div style={inputGroupStyle}>
@@ -190,7 +215,7 @@ const inputStyle = {
 
 const mobileInputStyle = {
     ...inputStyle,
-    marginLeft: '105px', // Centre les inputs sur mobiles
+    marginLeft: '105px',
     width: '80%',
 };
 
@@ -203,6 +228,15 @@ const buttonStyle = {
     borderRadius: '8px',
     fontSize: '14px',
     cursor: 'pointer',
+};
+
+const confirmationStyle = {
+    padding: '10px',
+    backgroundColor: '#4CAF50',
+    color: 'white',
+    borderRadius: '5px',
+    marginBottom: '15px',
+    textAlign: 'center',
 };
 
 export default AjouterUtilisateur;
