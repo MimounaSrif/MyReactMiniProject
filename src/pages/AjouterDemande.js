@@ -14,6 +14,16 @@ const AjouterDemande = () => {
     });
 
     const [message, setMessage] = useState('');
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    // 🔄 Détecte automatiquement la taille de l'écran
+    React.useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
@@ -52,6 +62,7 @@ const AjouterDemande = () => {
             setFormData({ titre: '', description: '', etat: 'En attente' });
             setMessage('Votre demande a été ajoutée avec succès ! ✅');
 
+            setTimeout(() => setMessage(''), 3000);
         } catch (error) {
             console.error("Erreur complète:", error);
             setMessage(`Erreur lors de l'ajout de la demande: ${error.message}`);
@@ -59,7 +70,7 @@ const AjouterDemande = () => {
     };
 
     return (
-        <div style={containerStyle}>
+        <div style={isMobile ? mobileContainerStyle : containerStyle}>
             <h2 style={titleStyle}>Ajouter une demande</h2>
             {message && <p style={message.includes('succès') ? successMessageStyle : errorMessageStyle}>{message}</p>}
             <form onSubmit={handleSubmit} style={formStyle}>
@@ -88,11 +99,11 @@ const AjouterDemande = () => {
     );
 };
 
-// 🎨 Styles modernes et fluides avec décalage à droite
+// 🎨 **Styles adaptés**
 const containerStyle = {
     maxWidth: '500px',
-    marginLeft: 'auto', // Décalage à droite
-    marginRight: '220px', // Espace à droite
+    marginLeft: 'auto',
+    marginRight: '220px', // Espace à droite pour les grands écrans
     marginTop: '100px',
     padding: '20px',
     borderRadius: '20px',
@@ -100,6 +111,18 @@ const containerStyle = {
     boxShadow: '0px 12px 24px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+};
+
+// 📱 **Styles pour mobile/tablette**
+const mobileContainerStyle = {
+    width: '90%', // Augmenter la largeur sur mobiles
+    maxWidth: '500px', // Limite la largeur
+    margin: '50px auto', // Centré verticalement et horizontalement
+    padding: '20px',
+    borderRadius: '15px',
+    backgroundColor: '#ffffff',
+    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
 };
 
 const titleStyle = {
@@ -157,70 +180,5 @@ const errorMessageStyle = {
     marginBottom: '20px',
     fontWeight: '500',
 };
-
-// ✅ Media Queries pour le Responsive
-const mediaQueries = `
-    @media (max-width: 1200px) {
-        .containerStyle {
-            margin-right: 100px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .containerStyle {
-            max-width: 100%; /* Occupe toute la largeur */
-            margin: 20px 10px; /* Marges réduites */
-            padding: 15px;
-            margin-right: 0;
-            border-radius: 10px; /* Bordures moins prononcées */
-        }
-
-        .titleStyle {
-            font-size: 22px;
-        }
-
-        .inputStyle, .textareaStyle {
-            padding: 12px;
-            font-size: 14px;
-            width: 100%; /* Occupe toute la largeur */
-        }
-
-        .buttonStyle {
-            padding: 12px;
-            font-size: 14px;
-            width: 100%; /* Occupe toute la largeur */
-        }
-    }
-
-    @media (max-width: 480px) {
-        .containerStyle {
-            max-width: 100%; /* Occupe toute la largeur */
-            margin: 10px 5px; /* Marges minimales */
-            padding: 10px;
-        }
-
-        .titleStyle {
-            font-size: 20px;
-        }
-
-        .inputStyle, .textareaStyle {
-            padding: 10px;
-            font-size: 12px;
-            width: 100%; /* Occupe toute la largeur */
-        }
-
-        .buttonStyle {
-            padding: 10px;
-            font-size: 12px;
-            width: 100%; /* Occupe toute la largeur */
-        }
-    }
-`;
-
-// Ajouter les styles au document
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = mediaQueries;
-document.head.appendChild(styleSheet);
 
 export default AjouterDemande;
