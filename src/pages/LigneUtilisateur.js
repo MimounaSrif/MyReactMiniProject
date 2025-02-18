@@ -45,7 +45,7 @@ const LigneUtilisateur = ({ utilisateur, estAdmin }) => {
                 <td>{userData.nom}</td>
                 <td>{userData.prenom}</td>
                 <td>{userData.email}</td>
-                <td style={buttonContainerStyle}>
+                <td style={window.innerWidth <= 768 ? buttonContainerStyleMobile : buttonContainerStyle}>
                     <button onClick={() => setAfficherDetails(true)} style={detailsButtonStyle}>Détails</button>
                     <button onClick={() => setModifierMode(true)} style={editButtonStyle}>Modifier</button>
                     {estAdmin && (
@@ -93,13 +93,21 @@ const LigneUtilisateur = ({ utilisateur, estAdmin }) => {
     );
 };
 
-// Styles
+// 🎨 **Styles Responsive**
 const buttonContainerStyle = {
     display: 'flex',
     gap: '10px',
     alignItems: 'center',
 };
 
+const buttonContainerStyleMobile = {
+    display: 'flex',
+    flexDirection: 'column', // Superpose les boutons
+    gap: '5px',
+    alignItems: 'center',
+};
+
+// 🎨 **Boutons**
 const deleteButtonStyle = {
     backgroundColor: '#dc3545',
     color: 'white',
@@ -107,6 +115,7 @@ const deleteButtonStyle = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+    width: '100%',
 };
 
 const editButtonStyle = {
@@ -116,18 +125,20 @@ const editButtonStyle = {
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+    width: '100%',
 };
 
 const detailsButtonStyle = {
-    backgroundColor: '#17a2b8',
+    backgroundColor: '#007bff',
     color: 'white',
     padding: '8px 12px',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
+    width: '100%',
 };
 
-// Styles pour la popup (modale)
+// 🎨 **Modale (Popup)**
 const modalOverlayStyle = {
     position: 'fixed',
     top: 0,
@@ -155,6 +166,7 @@ const userDetailsStyle = {
     lineHeight: '1.6',
 };
 
+// 🎨 **Formulaire de modification**
 const formStyle = {
     display: 'flex',
     flexDirection: 'column',
@@ -170,6 +182,7 @@ const saveButtonStyle = {
     borderRadius: '5px',
     cursor: 'pointer',
     marginTop: '10px',
+    width: '100%',
 };
 
 const closeButtonStyle = {
@@ -180,6 +193,7 @@ const closeButtonStyle = {
     borderRadius: '5px',
     cursor: 'pointer',
     marginTop: '10px',
+    width: '100%',
 };
 
 export default LigneUtilisateur;

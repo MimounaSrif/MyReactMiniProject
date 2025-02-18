@@ -7,7 +7,7 @@ const Accueil = () => {
     return (
         <div style={containerStyle}>
             <div style={cardStyle}>
-                <h1>Bienvenue </h1>
+                <h1>Bienvenue</h1>
                 <img src={user.avatar} alt="Avatar" style={avatarStyle} />
                 <h1><span style={userNameStyle}>{user.prenom} {user.nom}</span></h1>
                 <p>Nous sommes ravis de vous voir.</p>
@@ -16,14 +16,16 @@ const Accueil = () => {
     );
 };
 
-// 🎨 Styles
-
+// 🎨 **Styles**
 const containerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '15px',
-    marginLeft: '140px',
+    padding: '20px',
+    minHeight: '100vh',
+    maxWidth: '1200px',
+    overflowX: 'hidden', // 🚫 Cache toute barre de défilement horizontale
+    boxSizing: 'border-box',
 };
 
 const cardStyle = {
@@ -33,6 +35,7 @@ const cardStyle = {
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
     maxWidth: '400px',
+    width: '100%',
 };
 
 const userNameStyle = {
@@ -47,5 +50,29 @@ const avatarStyle = {
     borderRadius: '50%',
     marginBottom: '20px',
 };
+
+// 📱 **Media Queries pour un design responsive**
+const mediaStyles = `
+    @media (max-width: 768px) {
+        body, html {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .cardStyle {
+            max-width: 90%;
+            padding: 20px;
+        }
+
+        .avatarStyle {
+            width: 120px;
+            height: 120px;
+        }
+    }
+`;
 
 export default Accueil;

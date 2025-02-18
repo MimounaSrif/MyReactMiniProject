@@ -14,7 +14,7 @@ const VoirMonProfile = () => {
     }
 
     return (
-        <div style={{ ...profileContainerStyle, backgroundColor: user.couleur || '#f5f5f5' }}>
+        <div style={profileContainerStyle}>
             <div style={profileCardStyle}>
                 <img src={user.avatar} alt="Avatar" style={avatarStyle} />
                 <h2 style={titleStyle}>Mon Profil</h2>
@@ -59,15 +59,16 @@ const VoirMonProfile = () => {
     );
 };
 
-// Styles améliorés
+// Styles responsifs
 const profileContainerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
     padding: '20px',
-    marginTop:'29px',
-    marginLeft:'165px',
+    width: '90%',
+    maxWidth: '1200px', // Centre le contenu sur les grands écrans
+    marginLeft: 'auto',
+    marginRight: 'auto',
 };
 
 const profileCardStyle = {
@@ -77,7 +78,16 @@ const profileCardStyle = {
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
     textAlign: 'center',
     maxWidth: '500px',
-    width: '100%',
+    width: '90%',
+};
+
+const avatarStyle = {
+    width: '150px',
+    height: '150px',
+    borderRadius: '50%',
+    objectFit: 'cover',
+    border: '3px solid #ddd',
+    marginBottom: '20px',
 };
 
 const titleStyle = {
@@ -104,15 +114,6 @@ const cellValueStyle = {
     textAlign: 'left',
     fontSize: '16px',
     color: '#555',
-};
-
-const avatarStyle = {
-    width: '150px',
-    height: '150px',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    border: '3px solid #ddd',
-    marginBottom: '20px',
 };
 
 const errorMessageStyle = {
