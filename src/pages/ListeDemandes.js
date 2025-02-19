@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { setRequests, updateRequest } from '../redux/requestsSlice';
+import { setRequests, updateRequest, deleteRequest } from '../redux/requestsSlice';
 
 const ListeDemandes = () => {
     const user = useSelector((state) => state.user);
@@ -9,7 +9,7 @@ const ListeDemandes = () => {
     const dispatch = useDispatch();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-    // ✅ Détecte la taille de l'écran pour activer le mode mobile
+    // ✅ Détecte la taille de l'écran
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth <= 768);
@@ -70,8 +70,27 @@ const ListeDemandes = () => {
                                 <td style={tableDescriptionStyle}>{demande.description}</td>
                                 <td style={tableCellStyle}>{demande.etat}</td>
                                 <td style={isMobile ? buttonContainerMobile : buttonContainerDesktop}>
-                                    <button onClick={() => updateRequest(demande.id, 'Approuvée', demande.utilisateurId)} style={isMobile ? buttonApproveStyleMobile : buttonApproveStyle}>Approuver</button>
-                                    <button onClick={() => updateRequest(demande.id, 'Rejetée', demande.utilisateurId)} style={isMobile ? buttonRejectStyleMobile : buttonRejectStyle}>Rejeter</button>
+                                    {user.admin ? (
+                                        <>
+                                            <button style={buttonApproveStyle}>Approuver</button>
+                                            <button style={buttonRejectStyle}>Rejeter</button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <button 
+                                                style={demande.etat === 'En attente' ? buttonCancelStyle : buttonCancelDisabledStyle} 
+                                                disabled={demande.etat !== 'En attente'}
+                                            >
+                                                Annuler
+                                            </button>
+                                            <button 
+                                                style={demande.etat === 'Rejetée' ? buttonDeleteStyle : buttonDeleteDisabledStyle} 
+                                                disabled={demande.etat !== 'Rejetée'}
+                                            >
+                                                Supprimer
+                                            </button>
+                                        </>
+                                    )}
                                 </td>
                             </tr>
                         ))}
@@ -84,22 +103,21 @@ const ListeDemandes = () => {
 
 // ✅ **Styles**
 const containerStyle = {
-    width: '80%',
-    margin: 'auto',
+    width: '75%',
+    marginLeft: '250px', // 🔥 Augmenté le décalage vers la gauche
     padding: '20px',
     background: '#ffffff',
     borderRadius: '10px',
     boxShadow: '0px 8px 12px rgba(0, 0, 0, 0.15)',
     textAlign: 'center',
     minHeight: '100vh',
-    marginLeft: '190px',
     transition: 'all 0.3s ease',
 };
 
-// 📱 **Styles mobiles améliorés**
+// 📱 **Styles mobiles**
 const mobileContainerStyle = {
-    width: '97%', // 🔥 Un peu plus large pour plus d’espace
-    height: '90vh',
+    width: '95%',
+    height: 'auto',
     margin: 'auto',
     padding: '15px',
     display: 'flex',
@@ -133,21 +151,12 @@ const tableStyle = {
     textAlign: 'center',
 };
 
-// 📱 **Tableau pour mobile avec espace ajusté**
 const mobileTableStyle = {
     width: '100%',
     borderCollapse: 'collapse',
     textAlign: 'center',
-    tableLayout: 'fixed', // 🔥 Gagne de l’espace
+    tableLayout: 'fixed',
     wordWrap: 'break-word',
-};
-
-// ✅ **Ajout d'un style spécifique pour la description**
-const tableDescriptionStyle = {
-    padding: '8px',
-    textAlign: 'left',
-    wordWrap: 'break-word',
-    maxWidth: '200px', // 🔥 Permet d'afficher plus de texte
 };
 
 const tableHeaderStyle = {
@@ -159,6 +168,13 @@ const tableHeaderStyle = {
 const tableCellStyle = {
     padding: '10px',
     borderBottom: '1px solid #ddd',
+};
+
+const tableDescriptionStyle = {
+    padding: '8px',
+    textAlign: 'left',
+    wordWrap: 'break-word',
+    maxWidth: '200px',
 };
 
 // ✅ **Boutons en ligne sur PC**
@@ -177,7 +193,7 @@ const buttonContainerMobile = {
     gap: '4px',
 };
 
-// ✅ **Boutons plus petits sur mobile**
+// ✅ **Styles des boutons**
 const buttonApproveStyle = {
     padding: '6px',
     backgroundColor: 'green',
@@ -187,13 +203,6 @@ const buttonApproveStyle = {
     cursor: 'pointer',
     fontSize: '12px',
     width: '100%',
-};
-
-// 📱 **Version réduite des boutons sur mobile**
-const buttonApproveStyleMobile = {
-    ...buttonApproveStyle,
-    padding: '4px',
-    fontSize: '10px',
 };
 
 const buttonRejectStyle = {
@@ -207,10 +216,38 @@ const buttonRejectStyle = {
     width: '100%',
 };
 
-const buttonRejectStyleMobile = {
-    ...buttonRejectStyle,
-    padding: '4px',
-    fontSize: '10px',
+const buttonCancelStyle = {
+    padding: '6px',
+    backgroundColor: 'gray',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '12px',
+    width: '100%',
+};
+
+const buttonCancelDisabledStyle = {
+    ...buttonCancelStyle,
+    backgroundColor: '#ccc',
+    cursor: 'not-allowed',
+};
+
+const buttonDeleteStyle = {
+    padding: '6px',
+    backgroundColor: 'darkred',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '12px',
+    width: '100%',
+};
+
+const buttonDeleteDisabledStyle = {
+    ...buttonDeleteStyle,
+    backgroundColor: '#ccc',
+    cursor: 'not-allowed',
 };
 
 export default ListeDemandes;
