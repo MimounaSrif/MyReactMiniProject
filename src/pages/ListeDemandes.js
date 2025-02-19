@@ -17,6 +17,67 @@ const ListeDemandes = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+    const handleStatutChange = async (id, newStatus, utilisateurId) => {
+        try {
+            const userResponse = await axios.get(`https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users/${utilisateurId}`);
+            let userData = userResponse.data;
+    
+            if (userData.requests && userData.requests[id]) {
+                userData.requests[id].etat = newStatus;
+            }
+    
+            await axios.put(`https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users/${utilisateurId}`, {
+                requests: userData.requests
+            });
+    
+            dispatch(updateRequest({ id, etat: newStatus }));
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de la demande:', error);
+        }
+    };
+    
+    const handleCancelRequest = async (id, utilisateurId, etat) => {
+        if (etat !== 'En attente') return;
+    
+        try {
+            const userResponse = await axios.get(`https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users/${utilisateurId}`);
+            let userData = userResponse.data;
+    
+            if (userData.requests && userData.requests[id]) {
+                delete userData.requests[id];
+            }
+    
+            await axios.put(`https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users/${utilisateurId}`, {
+                requests: userData.requests
+            });
+    
+            dispatch(deleteRequest(id));
+        } catch (error) {
+            console.error(`Erreur lors de l'annulation de la demande:`, error);
+        }
+    };
+    
+    const handleDeleteRequest = async (id, utilisateurId, etat) => {
+        if (etat !== 'Rejetée') return;
+    
+        try {
+            const userResponse = await axios.get(`https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users/${utilisateurId}`);
+            let userData = userResponse.data;
+    
+            if (userData.requests && userData.requests[id]) {
+                delete userData.requests[id];
+            }
+    
+            await axios.put(`https://678177b885151f714b0ae2c7.mockapi.io/myapitest/users/${utilisateurId}`, {
+                requests: userData.requests
+            });
+    
+            dispatch(deleteRequest(id));
+        } catch (error) {
+            console.error(`Erreur lors de la suppression de la demande:`, error);
+        }
+    };
+    
 
     useEffect(() => {
         const fetchDemandes = async () => {
@@ -64,37 +125,50 @@ const ListeDemandes = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {demandes.map(demande => (
-                            <tr key={demande.id}>
-                                <td style={tableCellStyle}>{demande.titre}</td>
-                                <td style={tableDescriptionStyle}>{demande.description}</td>
-                                <td style={tableCellStyle}>{demande.etat}</td>
-                                <td style={isMobile ? buttonContainerMobile : buttonContainerDesktop}>
-                                    {user.admin ? (
-                                        <>
-                                            <button style={buttonApproveStyle}>Approuver</button>
-                                            <button style={buttonRejectStyle}>Rejeter</button>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <button 
-                                                style={demande.etat === 'En attente' ? buttonCancelStyle : buttonCancelDisabledStyle} 
-                                                disabled={demande.etat !== 'En attente'}
-                                            >
-                                                Annuler
-                                            </button>
-                                            <button 
-                                                style={demande.etat === 'Rejetée' ? buttonDeleteStyle : buttonDeleteDisabledStyle} 
-                                                disabled={demande.etat !== 'Rejetée'}
-                                            >
-                                                Supprimer
-                                            </button>
-                                        </>
-                                    )}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+    {demandes.map(demande => (
+        <tr key={demande.id}>
+            <td style={tableCellStyle}>{demande.titre}</td>
+            <td style={tableDescriptionStyle}>{demande.description}</td>
+            <td style={tableCellStyle}>{demande.etat}</td>
+            <td style={isMobile ? buttonContainerMobile : buttonContainerDesktop}>
+                {user.admin ? (
+                    <>
+                        <button 
+                            onClick={() => handleStatutChange(demande.id, 'Approuvée', demande.utilisateurId)} 
+                            style={buttonApproveStyle}
+                        >
+                            Approuver
+                        </button>
+                        <button 
+                            onClick={() => handleStatutChange(demande.id, 'Rejetée', demande.utilisateurId)} 
+                            style={buttonRejectStyle}
+                        >
+                            Rejeter
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <button 
+                            onClick={() => handleCancelRequest(demande.id, demande.utilisateurId, demande.etat)} 
+                            style={demande.etat === 'En attente' ? buttonCancelStyle : buttonCancelDisabledStyle} 
+                            disabled={demande.etat !== 'En attente'}
+                        >
+                            Annuler
+                        </button>
+                        <button 
+                            onClick={() => handleDeleteRequest(demande.id, demande.utilisateurId, demande.etat)} 
+                            style={demande.etat === 'Rejetée' ? buttonDeleteStyle : buttonDeleteDisabledStyle} 
+                            disabled={demande.etat !== 'Rejetée'}
+                        >
+                            Supprimer
+                        </button>
+                    </>
+                )}
+            </td>
+        </tr>
+    ))}
+  </tbody>
+
                 </table>
             </div>
         </div>
