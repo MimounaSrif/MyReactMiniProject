@@ -6,6 +6,14 @@ import { setUser } from '../redux/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
+const avatarOptions = [
+    "https://img.freepik.com/photos-premium/styliste-cheveux-avatar-numerique-ia-generative_934475-9013.jpg?ga=GA1.1.1784354675.1739704696&semt=ais_hybrid",
+    "https://img.freepik.com/photos-premium/jeune-homme-hipster-lunettes_862994-10881.jpg?ga=GA1.1.1784354675.1739704696&semt=ais_hybrid",
+    "https://img.freepik.com/photos-gratuite/scene-style-vie-bande-dessinee-du-cafe_23-2151133676.jpg?ga=GA1.1.1784354675.1739704696&semt=ais_hybrid",
+    "https://img.freepik.com/vecteurs-libre/portrait-belle-fille-diademe-tete_1196-849.jpg?ga=GA1.1.1784354675.1739704696&semt=ais_hybrid",
+    "https://img.freepik.com/vecteurs-premium/jeune-rappeur-recherche-cool-casquette-bleue-illustration-vectorielle-sa-silhouette-isolee_927585-160.jpg?ga=GA1.1.1784354675.1739704696&semt=ais_hybrid",
+];
+
 const CreateAccount = () => {
     const [formData, setFormData] = useState({
         nom: '',
@@ -19,7 +27,7 @@ const CreateAccount = () => {
         Pays: 'Morocco',
         email: '',
         photo: '',
-        avatar: '',
+        avatar: avatarOptions[0],
     });
 
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -66,6 +74,10 @@ const CreateAccount = () => {
             setErrors(['Une erreur est survenue lors de la création du compte.']);
         }
     };
+    const handleAvatarChange = (selectedAvatar) => {
+        setFormData({ ...formData, avatar: selectedAvatar });
+    };
+    
 
     return (
         <div className="container">
@@ -138,6 +150,18 @@ const CreateAccount = () => {
                             </select>
                             <input type="text" name="photo" placeholder="Photo (URL)" value={formData.photo} onChange={handleChange} required />
                             <input type="text" name="avatar" placeholder="Avatar (URL)" value={formData.avatar} onChange={handleChange} required />
+                            <h3>Choisissez un avatar :</h3>
+                                    <div className="avatar-selection">
+                                        {avatarOptions.map((avatar, index) => (
+                                            <img
+                                                key={index}
+                                                src={avatar}
+                                                alt={`Avatar ${index + 1}`}
+                                                className={`avatar ${formData.avatar === avatar ? 'selected' : ''}`}
+                                                onClick={() => handleAvatarChange(avatar)}
+                                            />
+                                        ))}
+                                    </div>
                             <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
 
                             {/* Champ de mot de passe avec icône d'affichage/masquage */}
@@ -274,7 +298,26 @@ const CreateAccount = () => {
                     transform: translateY(-50%);
                     cursor: pointer;
                     color: #6a11cb;
-                }
+                } 
+                    .avatar-selection {
+                        display: flex;
+                        justify-content: center;
+                        gap: 10px;
+                        margin-top: 10px;
+                    }
+                    .avatar {
+                        width: 50px;
+                        height: 50px;
+                        border-radius: 50%;
+                        cursor: pointer;
+                        transition: transform 0.2s ease-in-out;
+                        border: 2px solid transparent;
+                    }
+                    .avatar.selected {
+                        transform: scale(1.2);
+                        border: 2px solid #6a11cb;
+                    }
+
 
                 /* Media Queries pour les écrans plus larges */
                 @media (min-width: 768px) {
